@@ -1,10 +1,10 @@
 const {getCardEmbeds} = require('../Helpers/cardFormattingHelpers')
-const {getCardSelector} = require('../Helpers/cardListFormattingHelpers')
+const {getPagedCardSearchMessage} = require('../Helpers/cardListFormattingHelpers')
 const {searchCards, lookupCardByCard} = require('../Helpers/cardSearchHelpers')
 
 
 const handleSearchCard = async (searchTerm, discordMsg) => {
-    const {cards, totalPages, queryHash} = await searchCards(searchTerm)
+    const {cards, totalPages, queryHash} = await searchCards(searchTerm, 1)
 
     if (cards.length === 0) {
         discordMsg.reply('Sorry, no cards found for that query.')
@@ -15,7 +15,7 @@ const handleSearchCard = async (searchTerm, discordMsg) => {
             embeds: embeds
         })
     } else {
-        const message = getCardSelector(cards, 1, totalPages, queryHash)
+        const message = getPagedCardSearchMessage(cards, 1, totalPages, queryHash)
         await discordMsg.reply(message)
     }
 }

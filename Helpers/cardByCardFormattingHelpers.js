@@ -1,35 +1,36 @@
 const {ActionRowBuilder, ButtonBuilder, ButtonStyle} = require('discord.js')
+
+const {getCardEmbeds} = require('../Helpers/cardFormattingHelpers')
+const {getPageButtons} = require('./navButtonFormattingHelpers')
 const {CARDS_PER_PAGE} = require('../globalVars')
 
 
-const getCardByCardActionRow = (cardNum, totalCardsOnPage, page, totalPages, queryHash) => {
-    return new ActionRowBuilder()
+const getCardByCardMessage = (card, pageCardNo, totalCardsOnPage, totalCards, page, totalPages, queryHash) => {
+    const embeds = getCardEmbeds(card)
+
+    const row = new ActionRowBuilder()
         .addComponents(
+            ...getPageButtons(
+                JSON.stringify({type: 'cbc', p: pageCardNo === 1 ? page - 1 : page, n: pageCardNo === 1 ? CARDS_PER_PAGE : pageCardNo - 1, q: queryHash}),
+                pageCardNo === 1 && page === 1,
+                JSON.stringify({type: 'cbc', p: pageCardNo === CARDS_PER_PAGE ? page + 1 : page, n: pageCardNo === CARDS_PER_PAGE ? 1 : pageCardNo + 1, q: queryHash}),
+                pageCardNo === totalCardsOnPage && page === totalPages
+            ),
             new ButtonBuilder()
-                .setCustomId(JSON.stringify({type: 'cbc', p: cardNum === 1 ? page - 1 : page, n: cardNum === 1 ? CARDS_PER_PAGE : cardNum - 1, q: queryHash}))
-                .setLabel(`Back`)
-                .setStyle(ButtonStyle.Primary)
-                .setEmoji('⬅️')
-                .setDisabled(cardNum === 1 && page === 1)
-        )
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId(JSON.stringify({type: 'cbc', p: cardNum === CARDS_PER_PAGE ? page + 1 : page, n: cardNum === CARDS_PER_PAGE ? 1 : cardNum + 1, q: queryHash}))
-                .setLabel(`Next`)
-                .setStyle(ButtonStyle.Primary)
-                .setEmoji('➡️')
-                .setDisabled(cardNum === totalCardsOnPage && page === totalPages)
-        )
-        .addComponents(
-            new ButtonBuilder()
-                .setCustomId(JSON.stringify({type: 'nav', p: page, q: queryHash}))
-                .setLabel(`Search List`)
+                .setCustomId(JSON.stringify({type: 'pcs', p: page, q: queryHash}))
+                .setLabel(`Paged Search`)
                 .setStyle(ButtonStyle.Success)
                 .setEmoji('🔍')
         )
+
+    return {
+        content: `Card ${(page - 1) * CARDS_PER_PAGE + pageCardNo} of ${totalCards}`,
+        embeds: embeds,
+        components: [row]
+    }
 }
 
 
 module.exports = {
-    getCardByCardActionRow
+    getCardByCardMessage
 }

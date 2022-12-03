@@ -25,13 +25,13 @@ const searchCardsByHash = async (queryHash, page = 1, searchTerm = null) => {
             cards = cards.filter(card => card.games.includes(GAMETYPE_FILTER))
             cache.set(cacheKey, cards)
         } else {
-            return {cards: [], totalPages: 0}
+            return {cards: [], totalPages: 0, totalCards: 0, queryHash: queryHash}
         }
     }
 
     const pagedCards = cards.slice((page - 1) * CARDS_PER_PAGE, page * CARDS_PER_PAGE)
 
-    return {cards: pagedCards, totalPages: Math.ceil(cards.length / CARDS_PER_PAGE), queryHash: queryHash}
+    return {cards: pagedCards, totalCards: cards.length, totalPages: Math.ceil(cards.length / CARDS_PER_PAGE), queryHash: queryHash}
 }
 
 const lookupCardById = async (cardId) => {

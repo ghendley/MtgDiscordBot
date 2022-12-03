@@ -1,9 +1,9 @@
-const {getCardSelector} = require('../Helpers/cardListFormattingHelpers')
+const {getPagedCardSearchMessage} = require('../Helpers/cardListFormattingHelpers')
 const {searchCardsByHash} = require('../Helpers/cardSearchHelpers')
 const {updateInteractionMessageWithError} = require('../Helpers/errorResponseHelpers')
 
 
-const handlePageNav = async (page, queryHash, interaction) => {
+const handlePagedCardSearch = async (page, queryHash, interaction) => {
     const {cards, totalPages} = await searchCardsByHash(queryHash, page)
 
     if (cards.length === 0 || totalPages === 0) {
@@ -11,9 +11,9 @@ const handlePageNav = async (page, queryHash, interaction) => {
         return
     }
 
-    const message = getCardSelector(cards, page, totalPages, queryHash)
+    const message = getPagedCardSearchMessage(cards, page, totalPages, queryHash)
     await interaction.update(message)
 }
 
 
-module.exports = handlePageNav
+module.exports = handlePagedCardSearch
