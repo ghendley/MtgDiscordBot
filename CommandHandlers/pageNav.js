@@ -8,7 +8,7 @@ const handlePageNav = async (page, queryHash, interaction) => {
 
     if (cards.length === 0 || totalPages === 0) {
         await updateInteractionMessageWithError(interaction, 'Caching error: please initiate new card search.')
-        return;
+        return
     }
 
     const message = getCardSelector(cards, page, totalPages, queryHash)
