@@ -22,6 +22,12 @@ const client = new DiscordClient({
     ]
 })
 
+// TODO Implement proper logging via library
+const getGetTimestampString = () => {
+    const timezoneOffset = new Date().getTimezoneOffset() * 60000
+    return new Date(Date.now() - timezoneOffset).toISOString().slice(0, 19)
+}
+
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`)
 })
@@ -30,11 +36,11 @@ client.on(DiscordEvents.MessageCreate, msg => {
     handleMessageCreate(msg)
         .then(wasBotCommand => {
             if (wasBotCommand) {
-                console.log(`Bot command handled: ${msg.content}`)
+                console.log(`${getGetTimestampString()} Bot command handled: ${msg.content}`)
             }
         })
         .catch(err => {
-            console.error(`Error due to message: ${msg.content}`, err)
+            console.error(`${getGetTimestampString()} Error due to message: ${msg.content}`, err)
         })
 })
 
@@ -42,11 +48,11 @@ client.on(DiscordEvents.InteractionCreate, interaction => {
     handleInteractionCreate(interaction)
         .then(wasBotInteraction => {
             if (wasBotInteraction) {
-                console.log(`Bot interaction handled: ${interaction.customId}`)
+                console.log(`${getGetTimestampString()} Bot interaction handled: ${interaction.customId}`)
             }
         })
         .catch(err => {
-            console.error(`Error due to interaction: ${interaction.customId}`, err)
+            console.error(`${getGetTimestampString()} Error due to interaction: ${interaction.customId}`, err)
         })
 })
 
