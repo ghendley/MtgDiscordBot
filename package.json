@@ -1,0 +1,25 @@
+{
+  "name": "mtgdiscordbot",
+  "version": "1.0.0",
+  "description": "Discord bot for searching for MTG cards via Scryfall's API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start-dev": "nodemon index.js"
+  },
+  "author": "ghendley",
+  "dependencies": {
+    "@discordjs/rest": "^1.4.0",
+    "axios": "^1.2.0",
+    "discord-api-types": "^0.37.20",
+    "discord.js": "^14.7.0",
+    "dotenv": "^16.0.3",
+    "lodash": "^4.17.21",
+    "md5": "^2.3.0",
+    "node-cache": "^5.1.2",
+    "scryfall-sdk": "^3.2.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
