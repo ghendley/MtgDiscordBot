@@ -60,6 +60,7 @@ const replaceKeywords = (text, keywords) => {
 // TODO Collection details (who has)
 // TODO Wishlist / Tradelist
 
+// TODO This could use a refactor for readability
 const getCardEmbed = (card) => {
     const uuid = crypto.randomUUID().substring(0, 8)
     const title = `${card.name} ${card.mana_cost === '' ? '' : '  ' + replaceSymbols(card.mana_cost)}`
@@ -78,6 +79,29 @@ const getCardEmbed = (card) => {
         rulingsValue = rulingsValue.substring(0, 1019) + '...")'
     }
 
+    let price = ''
+    if (card.prices.usd) {
+        price += `**$${card.prices.usd}**\n`
+    }
+    if (card.prices.usd_foil) {
+        if (!card.prices.usd) {
+            price += `**$${card.prices.usd_foil}** *Foil*\n`
+        } else {
+            price += `$${card.prices.usd_foil} *Foil*\n`
+        }
+    }
+    if (card.prices.usd_etched) {
+        if (!card.prices.usd && !card.prices.usd_foil) {
+            price += `**$${card.prices.usd_etched}** *Etched*`
+        } else {
+            price += `$${card.prices.usd_etched} *Etched*`
+        }
+    }
+    price = price.trim()
+    if (price === '') {
+        price = 'N/A'
+    }
+
     const footerText = `Legal:\t${legalities}`
 
     const embed = new EmbedBuilder()
@@ -93,8 +117,8 @@ const getCardEmbed = (card) => {
         inline: false
     })
     embed.addFields(
+        {name: 'Price', value: price, inline: true},
         {name: 'Rarity', value: _.capitalize(card.rarity), inline: true},
-        {name: 'Price', value: '$' + (card.prices.usd ?? 'N/A'), inline: true},
         {name: 'Rulings', value: rulingsValue, inline: true}
     )
 
