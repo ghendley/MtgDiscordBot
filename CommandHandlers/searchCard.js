@@ -9,7 +9,7 @@ const handleSearchCard = async (searchTerm, discordMsg) => {
     if (cards.length === 0) {
         discordMsg.reply('Sorry, no cards found for that query.')
     } else if (cards.length === 1) {
-        const card = lookupCardByCard(cards[0])
+        const card = await lookupCardByCard(cards[0])
         const embeds = getCardEmbeds(card)
         await discordMsg.reply({
             embeds: embeds
