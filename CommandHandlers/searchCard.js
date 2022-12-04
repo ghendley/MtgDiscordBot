@@ -3,7 +3,7 @@ const {getPagedCardSearchMessage} = require('../Helpers/cardListFormattingHelper
 const {searchCards, lookupCardByCard} = require('../Helpers/cardSearchHelpers')
 
 
-const handleSearchCard = async (searchTerm, discordMsg) => {
+const handleSearchCardMessage = async (searchTerm, discordMsg) => {
     const {cards, totalPages, queryHash} = await searchCards(searchTerm, 1)
 
     if (cards.length === 0) {
@@ -21,4 +21,6 @@ const handleSearchCard = async (searchTerm, discordMsg) => {
 }
 
 
-module.exports = handleSearchCard
+module.exports = {
+    handleSearchCardMessage
+}

@@ -3,7 +3,7 @@ const {searchCardsByHash} = require('../Helpers/cardSearchHelpers')
 const {updateInteractionMessageWithError} = require('../Helpers/errorResponseHelpers')
 
 
-const handlePagedCardSearch = async (page, queryHash, interaction) => {
+const handlePagedCardSearchInteraction = async (page, queryHash, interaction) => {
     const {cards, totalPages} = await searchCardsByHash(queryHash, page)
 
     if (cards.length === 0 || totalPages === 0) {
@@ -16,4 +16,6 @@ const handlePagedCardSearch = async (page, queryHash, interaction) => {
 }
 
 
-module.exports = handlePagedCardSearch
+module.exports = {
+    handlePagedCardSearchInteraction
+}

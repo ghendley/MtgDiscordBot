@@ -2,7 +2,7 @@ const {getCardEmbeds} = require('../Helpers/cardFormattingHelpers')
 const {lookupCardById} = require('../Helpers/cardSearchHelpers')
 
 
-const handleLookupCardById = async (cardId, interaction) => {
+const handleLookupCardByIdInteraction = async (cardId, interaction) => {
     const card = await lookupCardById(cardId)
     const embeds = getCardEmbeds(card)
     await interaction.update({
@@ -13,4 +13,6 @@ const handleLookupCardById = async (cardId, interaction) => {
 }
 
 
-module.exports = handleLookupCardById
+module.exports = {
+    handleLookupCardByIdInteraction
+}

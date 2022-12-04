@@ -1,5 +1,6 @@
 const {parseCommand} = require('../Helpers/commandHelpers')
-const handleSearchCard = require('../CommandHandlers/searchCard')
+const {handleSearchCardMessage} = require('../CommandHandlers/searchCard')
+const {handleCardByCardMessage} = require('../CommandHandlers/cardByCard')
 
 // TODO .rulings
 // TODO .prices (by set or by card)
@@ -16,7 +17,10 @@ const handleMessageCreate = async (message) => {
 
     switch (command) {
         case '.card':
-            await handleSearchCard(query, message)
+            await handleSearchCardMessage(query, message)
+            return true
+        case '.cbc':
+            await handleCardByCardMessage(query, message)
             return true
         default:
             return false

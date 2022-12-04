@@ -3,7 +3,7 @@ const {searchCardsByHash, lookupCardByCard} = require('../Helpers/cardSearchHelp
 const {updateInteractionMessageWithError} = require('../Helpers/errorResponseHelpers')
 
 
-const handleCardByCard = async (page, pageCardNo, queryHash, interaction) => {
+const handleCardByCardInteraction = async (page, pageCardNo, queryHash, interaction) => {
     const {cards, totalCards, totalPages} = await searchCardsByHash(queryHash, page)
 
     if (cards.length === 0 || totalPages === 0) {
@@ -18,4 +18,13 @@ const handleCardByCard = async (page, pageCardNo, queryHash, interaction) => {
 }
 
 
-module.exports = handleCardByCard
+const handleCardByCardMessage = async (page, pageCardNo, query, message) => {
+    // TODO IMPLEMENT CARD BY CARD MESSAGE SEARCH
+    throw 'CBC by message not implemented'
+}
+
+
+module.exports = {
+    handleCardByCardInteraction,
+    handleCardByCardMessage
+}

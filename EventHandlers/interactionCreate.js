@@ -1,6 +1,6 @@
-const handleCardByCard = require('../CommandHandlers/cardByCard')
-const handlePagedCardSearch = require('../CommandHandlers/pagedCardSearch')
-const handleLookupCardById = require('../CommandHandlers/lookupCard')
+const {handleCardByCardInteraction} = require('../CommandHandlers/cardByCard')
+const {handlePagedCardSearchInteraction} = require('../CommandHandlers/pagedCardSearch')
+const {handleLookupCardByIdInteraction} = require('../CommandHandlers/lookupCard')
 
 // TODO Implement stringSelectMenu search for handling 25 (*4=100) cards at a time in dropdown format
 
@@ -10,13 +10,13 @@ const handleInteractionCreate = async (interaction) => {
         const buttonData = JSON.parse(interaction.customId)
         switch (buttonData.type) {
             case 'pcs':
-                await handlePagedCardSearch(buttonData.p, buttonData.q, interaction)
+                await handlePagedCardSearchInteraction(buttonData.p, buttonData.q, interaction)
                 return true
             case 'card':
-                await handleLookupCardById(buttonData.id, interaction)
+                await handleLookupCardByIdInteraction(buttonData.id, interaction)
                 return true
             case 'cbc':
-                await handleCardByCard(buttonData.p, buttonData.n, buttonData.q, interaction)
+                await handleCardByCardInteraction(buttonData.p, buttonData.n, buttonData.q, interaction)
                 return true
             default:
                 await interaction.update({})
