@@ -1,7 +1,7 @@
 const {ActionRowBuilder, ButtonBuilder, ButtonStyle} = require('discord.js')
 
-const {getCardEmbeds} = require('../Helpers/cardFormattingHelpers')
-const {getPageButtons} = require('./navButtonFormattingHelpers')
+const {getCardEmbeds} = require('./cardFormatter')
+const {getPageButtons} = require('./navButtonFormatter')
 const {CARDS_PER_PAGE} = require('../globalVars')
 
 

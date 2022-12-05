@@ -142,7 +142,5 @@ const getCardEmbeds = (card) => {
 
 
 module.exports = {
-    replaceSymbols,
-    replaceKeywords,
     getCardEmbeds
 }

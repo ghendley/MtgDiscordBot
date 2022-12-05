@@ -1,4 +1,4 @@
-const {getCardByCardMessage} = require('../Helpers/cardByCardFormattingHelpers')
+const {getCardByCardMessage} = require('../Formatters/cardByCardFormatter')
 const {searchCards, searchCardsByHash, lookupCardByCard} = require('../Helpers/cardSearchHelpers')
 const {updateInteractionMessageWithError} = require('../Helpers/errorResponseHelpers')
 

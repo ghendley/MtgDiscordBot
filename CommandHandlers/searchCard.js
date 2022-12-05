@@ -1,5 +1,5 @@
-const {getCardEmbeds} = require('../Helpers/cardFormattingHelpers')
-const {getPagedCardSearchMessage} = require('../Helpers/cardListFormattingHelpers')
+const {getCardEmbeds} = require('../Formatters/cardFormatter')
+const {getPagedCardSearchMessage} = require('../Formatters/cardListFormatter')
 const {searchCards, lookupCardByCard} = require('../Helpers/cardSearchHelpers')
 
 

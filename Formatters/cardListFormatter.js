@@ -1,5 +1,5 @@
 const {ActionRowBuilder, ButtonBuilder, ButtonStyle} = require('discord.js')
-const {getPageButtons} = require('./navButtonFormattingHelpers')
+const {getPageButtons} = require('./navButtonFormatter')
 
 
 const getPagedCardSearchMessage = (cards, page, totalPages, queryHash) => {
