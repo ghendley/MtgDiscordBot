@@ -5,7 +5,7 @@ const NodeCache = require('node-cache')
 const {CARDS_PER_PAGE} = require('../globalVars')
 const {GAMETYPE_FILTER} = process.env
 
-const cache = new NodeCache({stdTTL: 300})
+const cache = new NodeCache({stdTTL: 1800})
 
 
 const searchCards = async (searchTerm, page = 1) => {
