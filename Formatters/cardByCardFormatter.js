@@ -36,10 +36,10 @@ const getCardByCardMessage = (card, pageCardNo, totalCardsOnPage, totalCards, pa
         .setEmoji('🔍')
 
     const components = []
-    if (ENABLE_WISHLISTS) {
+    if (ENABLE_WISHLISTS === 'true') {
         components.push(new ActionRowBuilder().addComponents(getWishlistButtons(card.id)))
     }
-    if (ENABLE_COLLECTIONS) {
+    if (ENABLE_COLLECTIONS === 'true') {
         components.push(new ActionRowBuilder().addComponents(getCollectionButtons(card.id)))
     }
     components.push(new ActionRowBuilder().addComponents(...pageButtons, searchButton))

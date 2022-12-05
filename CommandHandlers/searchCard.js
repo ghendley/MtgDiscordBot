@@ -20,10 +20,10 @@ const handleSearchCardMessage = async (searchTerm, discordMsg) => {
         const embeds = getCardEmbeds(card)
 
         const components = []
-        if (ENABLE_WISHLISTS) {
+        if (ENABLE_WISHLISTS === 'true') {
             components.push(new ActionRowBuilder().addComponents(getWishlistButtons(card.id)))
         }
-        if (ENABLE_COLLECTIONS) {
+        if (ENABLE_COLLECTIONS === 'true') {
             components.push(new ActionRowBuilder().addComponents(getCollectionButtons(card.id)))
         }
 

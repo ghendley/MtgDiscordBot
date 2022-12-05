@@ -23,8 +23,38 @@ const handleCollectionRemoveInteraction = async (cardId, interaction) => {
     )
 }
 
+const handleCollectionAddMessage = async (query, message) => {
+    message.reply(
+        {
+            content: `⚠️ Cannot add ${query} to your Collection: Feature not yet implemented.`,
+            ephemeral: true
+        }
+    )
+}
+
+const handleCollectionRemoveMessage = async (query, message) => {
+    message.reply(
+        {
+            content: `⚠️ Cannot remove ${query} from your Collection: Feature not yet implemented.`,
+            ephemeral: true
+        }
+    )
+}
+
+const handleCollectionGetMessage = async (query, message) => {
+    message.reply(
+        {
+            content: `⚠️ Cannot get Collection: Feature not yet implemented.`,
+            ephemeral: true
+        }
+    )
+}
+
 
 module.exports = {
     handleCollectionAddInteraction,
-    handleCollectionRemoveInteraction
+    handleCollectionRemoveInteraction,
+    handleCollectionAddMessage,
+    handleCollectionRemoveMessage,
+    handleCollectionGetMessage
 }

@@ -1,7 +1,7 @@
 const {lookupCardById} = require('../Helpers/cardSearchHelpers')
 
 
-const handleWishListAddInteraction = async (cardId, interaction) => {
+const handleWishlistAddInteraction = async (cardId, interaction) => {
     const card = await lookupCardById(cardId)
 
     interaction.reply(
@@ -12,7 +12,7 @@ const handleWishListAddInteraction = async (cardId, interaction) => {
     )
 }
 
-const handleWishListRemoveInteraction = async (cardId, interaction) => {
+const handleWishlistRemoveInteraction = async (cardId, interaction) => {
     const card = await lookupCardById(cardId)
 
     interaction.reply(
@@ -23,8 +23,38 @@ const handleWishListRemoveInteraction = async (cardId, interaction) => {
     )
 }
 
+const handleWishlistAddMessage = async (query, message) => {
+    message.reply(
+        {
+            content: `⚠️ Cannot add ${query} to your Wish List: Feature not yet implemented.`,
+            ephemeral: true
+        }
+    )
+}
+
+const handleWishlistRemoveMessage = async (query, message) => {
+    message.reply(
+        {
+            content: `⚠️ Cannot remove ${query} from your Wish List: Feature not yet implemented.`,
+            ephemeral: true
+        }
+    )
+}
+
+const handleWishlistGetMessage = async (query, message) => {
+    message.reply(
+        {
+            content: `⚠️ Cannot get Wish List: Feature not yet implemented.`,
+            ephemeral: true
+        }
+    )
+}
+
 
 module.exports = {
-    handleWishListAddInteraction,
-    handleWishListRemoveInteraction
+    handleWishlistAddInteraction,
+    handleWishlistRemoveInteraction,
+    handleWishlistAddMessage,
+    handleWishlistRemoveMessage,
+    handleWishlistGetMessage
 }

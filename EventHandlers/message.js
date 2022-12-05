@@ -1,6 +1,9 @@
 const {parseCommand} = require('../Helpers/commandHelpers')
 const {handleSearchCardMessage} = require('../CommandHandlers/searchCard')
 const {handleCardByCardMessage} = require('../CommandHandlers/cardByCard')
+const {handleWishlistAddMessage, handleWishlistRemoveMessage, handleWishlistGetMessage} = require('../CommandHandlers/wishlist')
+const {handleCollectionAddMessage, handleCollectionRemoveMessage, handleCollectionGetMessage} = require('../CommandHandlers/collection')
+
 
 // TODO .rulings
 // TODO .prices (by set or by card)
@@ -22,25 +25,24 @@ const handleMessage = async (message) => {
         case '.cbc':
             await handleCardByCardMessage(query, message)
             return true
-        // TODO Handle wishlist and collection message commands
-        // case '.wish':
-        //     await handleAddWishListMessage(query, message)
-        //     return true
-        // case '.unwish':
-        //     await handleRemoveWishListMessage(query, message)
-        //     return true
-        // case '.wishlist':
-        //     await handleGetWishListMessage(query, message)
-        //     return true
-        // case '.collect':
-        //     await handleAddCollectionMessage(query, message)
-        //     return true
-        // case '.uncollect':
-        //     await handleRemoveCollectionMessage(query, message)
-        //     return true
-        // case '.collection':
-        //     await handleGetCollectionMessage(query, message)
-        //     return true
+        case '.wish':
+            await handleWishlistAddMessage(query, message)
+            return true
+        case '.unwish':
+            await handleWishlistRemoveMessage(query, message)
+            return true
+        case '.wishlist':
+            await handleWishlistGetMessage(query, message)
+            return true
+        case '.collect':
+            await handleCollectionAddMessage(query, message)
+            return true
+        case '.uncollect':
+            await handleCollectionRemoveMessage(query, message)
+            return true
+        case '.collection':
+            await handleCollectionGetMessage(query, message)
+            return true
         default:
             return false
     }
