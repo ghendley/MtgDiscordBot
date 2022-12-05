@@ -57,9 +57,6 @@ const replaceKeywords = (text, keywords) => {
     return text
 }
 
-// TODO Collection details (who has)
-// TODO Wishlist / Tradelist
-
 // TODO This could use a refactor for readability
 const getCardEmbed = (card) => {
     const uuid = crypto.randomUUID().substring(0, 8)

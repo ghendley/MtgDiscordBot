@@ -1,7 +1,11 @@
+// TODO Collection details (who has)
+// TODO Wishlist / Tradelist
+// TODO Decklist
+
 require('dotenv').config()
 
-const {handleInteractionCreate} = require('./EventHandlers/interactionCreate')
-const {handleMessageCreate} = require('./EventHandlers/messageCreate')
+const {handleInteraction} = require('./EventHandlers/interaction')
+const {handleMessage} = require('./EventHandlers/message')
 
 const {DISCORD_BOT_TOKEN} = process.env
 
@@ -33,7 +37,7 @@ client.on('ready', () => {
 })
 
 client.on(DiscordEvents.MessageCreate, msg => {
-    handleMessageCreate(msg)
+    handleMessage(msg)
         .then(wasBotCommand => {
             if (wasBotCommand) {
                 console.log(`${getGetTimestampString()} Bot command handled: ${msg.content}`)
@@ -45,7 +49,7 @@ client.on(DiscordEvents.MessageCreate, msg => {
 })
 
 client.on(DiscordEvents.InteractionCreate, interaction => {
-    handleInteractionCreate(interaction)
+    handleInteraction(interaction)
         .then(wasBotInteraction => {
             if (wasBotInteraction) {
                 console.log(`${getGetTimestampString()} Bot interaction handled: ${interaction.customId}`)

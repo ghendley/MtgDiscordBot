@@ -2,26 +2,30 @@ const {ActionRowBuilder, ButtonBuilder, ButtonStyle} = require('discord.js')
 
 const {getCardEmbeds} = require('./cardFormatter')
 const {getPageButtons} = require('./navButtonFormatter')
+const {getWishlistButtons} = require('./wishlistButtonFormatter')
+const {getCollectionButtons} = require('./collectionButtonFormatter')
 const {CARDS_PER_PAGE} = require('../globalVars')
+
+const {ENABLE_WISHLISTS, ENABLE_COLLECTIONS} = process.env
 
 
 const getCardByCardMessage = (card, pageCardNo, totalCardsOnPage, totalCards, page, totalPages, queryHash) => {
-    const previousButton = {
+    const previousButtonData = {
         type: 'cbc',
         p: pageCardNo === 1 ? page - 1 : page,
         n: pageCardNo === 1 ? CARDS_PER_PAGE : pageCardNo - 1,
         q: queryHash
     }
-    const nextButton = {
+    const nextButtonData = {
         type: 'cbc',
         p: pageCardNo === CARDS_PER_PAGE ? page + 1 : page,
         n: pageCardNo === CARDS_PER_PAGE ? 1 : pageCardNo + 1,
         q: queryHash
     }
     const pageButtons = getPageButtons(
-        JSON.stringify(previousButton),
+        JSON.stringify(previousButtonData),
         pageCardNo === 1 && page === 1,
-        JSON.stringify(nextButton),
+        JSON.stringify(nextButtonData),
         pageCardNo === totalCardsOnPage && page === totalPages
     )
 
@@ -31,15 +35,21 @@ const getCardByCardMessage = (card, pageCardNo, totalCardsOnPage, totalCards, pa
         .setStyle(ButtonStyle.Success)
         .setEmoji('🔍')
 
-    const row = new ActionRowBuilder()
-        .addComponents(...pageButtons, searchButton)
+    const components = []
+    if (ENABLE_WISHLISTS) {
+        components.push(new ActionRowBuilder().addComponents(getWishlistButtons(card.id)))
+    }
+    if (ENABLE_COLLECTIONS) {
+        components.push(new ActionRowBuilder().addComponents(getCollectionButtons(card.id)))
+    }
+    components.push(new ActionRowBuilder().addComponents(...pageButtons, searchButton))
 
     const embeds = getCardEmbeds(card)
 
     return {
         content: `Card ${(page - 1) * CARDS_PER_PAGE + pageCardNo} of ${totalCards}`,
         embeds: embeds,
-        components: [row]
+        components: components
     }
 }
 
