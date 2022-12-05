@@ -7,7 +7,7 @@ const handleSearchCardMessage = async (searchTerm, discordMsg) => {
     const {cards, totalPages, queryHash} = await searchCards(searchTerm, 1)
 
     if (cards.length === 0) {
-        discordMsg.reply('Sorry, no cards found for that query.')
+        await discordMsg.reply('Sorry, no cards found for that query.')
     } else if (cards.length === 1) {
         const card = await lookupCardByCard(cards[0])
         const embeds = getCardEmbeds(card)

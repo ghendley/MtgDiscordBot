@@ -1,5 +1,5 @@
 const {getCardByCardMessage} = require('../Helpers/cardByCardFormattingHelpers')
-const {searchCardsByHash, lookupCardByCard} = require('../Helpers/cardSearchHelpers')
+const {searchCards, searchCardsByHash, lookupCardByCard} = require('../Helpers/cardSearchHelpers')
 const {updateInteractionMessageWithError} = require('../Helpers/errorResponseHelpers')
 
 
@@ -18,9 +18,18 @@ const handleCardByCardInteraction = async (page, pageCardNo, queryHash, interact
 }
 
 
-const handleCardByCardMessage = async (page, pageCardNo, query, message) => {
-    // TODO IMPLEMENT CARD BY CARD MESSAGE SEARCH
-    throw 'CBC by message not implemented'
+const handleCardByCardMessage = async (searchTerm, discordMsg) => {
+    const {cards, totalCards, totalPages, queryHash} = await searchCards(searchTerm, 1)
+
+    if (cards.length === 0 || totalPages === 0) {
+        await discordMsg.reply('Sorry, no cards found for that query.')
+        return
+    }
+
+    const card = await lookupCardByCard(cards[0])
+    const message = getCardByCardMessage(card, 1, cards.length, totalCards, 1, totalPages, queryHash)
+
+    await discordMsg.reply(message)
 }
 
 
