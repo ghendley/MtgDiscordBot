@@ -58,6 +58,7 @@ const replaceKeywords = (text, keywords) => {
 }
 
 // TODO This could use a refactor for readability
+// TODO Handle variations search (frame effect, set, finish)
 const getCardEmbed = (card) => {
     const uuid = crypto.randomUUID().substring(0, 8)
     const title = `${card.name} ${card.mana_cost === '' ? '' : '  ' + replaceSymbols(card.mana_cost)}`

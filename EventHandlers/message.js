@@ -25,6 +25,7 @@ const handleMessage = async (message) => {
         case '.cbc':
             await handleCardByCardMessage(query, message)
             return true
+        // TODO Consider making wish, unwish, collect, uncollect slash commands and collection and wishlist both dot and slash commands
         case '.wish':
             await handleWishlistAddMessage(query, message)
             return true

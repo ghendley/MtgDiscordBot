@@ -8,6 +8,16 @@ const {handleInteraction} = require('./EventHandlers/interaction')
 const {handleMessage} = require('./EventHandlers/message')
 
 const {DISCORD_BOT_TOKEN} = process.env
+const {USE_DB} = require('./globalVars')
+const {connectToDb} = require('./DB/db')
+
+if (USE_DB) {
+    connectToDb()
+        .catch(err => {
+            console.error('Error connecting to DB.', err)
+            process.exit(1)
+        })
+}
 
 const {
     Client: DiscordClient,
@@ -61,3 +71,7 @@ client.on(DiscordEvents.InteractionCreate, interaction => {
 })
 
 client.login(DISCORD_BOT_TOKEN)
+    .catch(err => {
+        console.error('Error logging in to Discord.', err)
+        process.exit(1)
+    })

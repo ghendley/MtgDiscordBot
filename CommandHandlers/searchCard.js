@@ -1,12 +1,12 @@
 const {ActionRowBuilder} = require('discord.js')
 
-const {getCardEmbeds} = require('../Formatters/cardFormatter')
+const {getCardEmbeds} = require('../Formatters/cardEmbedFormatter')
 const {getPagedCardSearchMessage} = require('../Formatters/cardListFormatter')
-const {searchCards, lookupCardByCard} = require('../Helpers/cardSearchHelpers')
+const {searchCards, lookupCardById} = require('../Helpers/cardSearchHelpers')
 const {getWishlistButtons} = require('../Formatters/wishlistButtonFormatter')
 const {getCollectionButtons} = require('../Formatters/collectionButtonFormatter')
 
-const {ENABLE_WISHLISTS, ENABLE_COLLECTIONS} = process.env
+const {WISHLISTS_ENABLED, COLLECTIONS_ENABLED} = require('../globalVars')
 
 
 const handleSearchCardMessage = async (searchTerm, discordMsg) => {
@@ -15,15 +15,15 @@ const handleSearchCardMessage = async (searchTerm, discordMsg) => {
     if (cards.length === 0) {
         await discordMsg.reply('Sorry, no cards found for that query.')
     } else if (cards.length === 1) {
-        const card = await lookupCardByCard(cards[0])
+        const card = await lookupCardById(cards[0].id)
 
         const embeds = getCardEmbeds(card)
 
         const components = []
-        if (ENABLE_WISHLISTS === 'true') {
+        if (WISHLISTS_ENABLED) {
             components.push(new ActionRowBuilder().addComponents(getWishlistButtons(card.id)))
         }
-        if (ENABLE_COLLECTIONS === 'true') {
+        if (COLLECTIONS_ENABLED) {
             components.push(new ActionRowBuilder().addComponents(getCollectionButtons(card.id)))
         }
 

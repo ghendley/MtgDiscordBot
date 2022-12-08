@@ -23,6 +23,7 @@ const handleCollectionRemoveInteraction = async (cardId, interaction) => {
     )
 }
 
+// TODO also reply to these messages with an emoji reaction
 const handleCollectionAddMessage = async (query, message) => {
     message.reply(
         {

@@ -16,6 +16,7 @@
     "dotenv": "^16.0.3",
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
+    "mongoose": "^6.8.0",
     "node-cache": "^5.1.2",
     "scryfall-sdk": "^3.2.1"
   },

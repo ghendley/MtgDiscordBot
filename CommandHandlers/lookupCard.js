@@ -1,4 +1,4 @@
-const {getCardEmbeds} = require('../Formatters/cardFormatter')
+const {getCardEmbeds} = require('../Formatters/cardEmbedFormatter')
 const {lookupCardById} = require('../Helpers/cardSearchHelpers')
 
 

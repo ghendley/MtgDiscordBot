@@ -23,6 +23,8 @@ const handleWishlistRemoveInteraction = async (cardId, interaction) => {
     )
 }
 
+
+// TODO also reply to these messages with an emoji reaction
 const handleWishlistAddMessage = async (query, message) => {
     message.reply(
         {
