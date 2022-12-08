@@ -25,7 +25,7 @@ const cardRequiresDbUpsert = async (card) => {
 
 const upsertCardInDb = async (card) => {
     if (USE_DB) {
-        await Card.findOneAndUpdate({id: card.id}, new Card(card), {upsert: true})
+        await Card.findOneAndUpdate({id: card.id}, card, {upsert: true})
     }
 }
 
