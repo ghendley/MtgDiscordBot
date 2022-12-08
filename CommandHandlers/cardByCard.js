@@ -1,5 +1,5 @@
 const {getCardByCardMessage} = require('../Formatters/cardByCardFormatter')
-const {searchCards, searchCardsByHash, lookupCardByCard} = require('../Helpers/cardSearchHelpers')
+const {searchCards, searchCardsByHash, lookupCardById} = require('../Helpers/cardSearchHelpers')
 const {updateInteractionMessageWithError} = require('../Helpers/errorResponseHelpers')
 
 
@@ -11,7 +11,7 @@ const handleCardByCardInteraction = async (page, pageCardNo, queryHash, interact
         return
     }
 
-    const card = await lookupCardByCard(cards[pageCardNo - 1])
+    const card = await lookupCardById(cards[pageCardNo - 1].id)
     const message = getCardByCardMessage(card, pageCardNo, cards.length, totalCards, page, totalPages, queryHash)
 
     await interaction.update(message)
@@ -26,7 +26,7 @@ const handleCardByCardMessage = async (searchTerm, discordMsg) => {
         return
     }
 
-    const card = await lookupCardByCard(cards[0])
+    const card = await lookupCardById(cards[0].id)
     const message = getCardByCardMessage(card, 1, cards.length, totalCards, 1, totalPages, queryHash)
 
     await discordMsg.reply(message)
