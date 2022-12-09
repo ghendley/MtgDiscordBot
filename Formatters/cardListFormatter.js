@@ -2,8 +2,9 @@ const {ActionRowBuilder, ButtonBuilder, ButtonStyle} = require('discord.js')
 const {getPageButtons} = require('./navButtonFormatter')
 
 
+// TODO multipleCopiesOfSameCard is only searching for cards on this page; consider adding a return from the search function to indicate whether there are multiple copies of the same card
 const getPagedCardSearchMessage = (cards, page, totalPages, queryHash) => {
-    const multipleCopiesOfSameCard = cards.length > 100 ? false : cards.some((card, index, array) => {
+    const multipleCopiesOfSameCard = cards.some((card, index, array) => {
         return array.some((otherCard, otherIndex) => {
             return card.name === otherCard.name && index !== otherIndex
         })
