@@ -28,8 +28,7 @@ const cleanCardFaces = (card) => {
 
 const searchCards = async (searchTerm, page = 1) => {
     const queryHash = md5(searchTerm)
-    const cacheKey = SEARCH_CACHE_PREFIX + queryHash
-    return await searchCardsByHash(cacheKey, page, searchTerm)
+    return await searchCardsByHash(queryHash, page, searchTerm)
 }
 
 const searchCardsByHash = async (queryHash, page = 1, searchTerm = null) => {
