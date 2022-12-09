@@ -2,7 +2,7 @@ const scry = require('scryfall-sdk')
 const md5 = require('md5')
 const NodeCache = require('node-cache')
 
-const {retrieveCardFromDb, upsertCardInDbIfNecessary, cardRequiresDbUpsert, upsertCardInDb} = require('../DB/Helpers/cardHelpers')
+const {retrieveCardFromDb, insertCardInDbIfNotExists, cardRequiresDbUpsert, upsertCardInDb} = require('../DB/Helpers/cardHelpers')
 
 const {CARDS_PER_PAGE, CACHE_TIME_SECONDS} = require('../globalVars')
 const {GAMETYPE_FILTER} = process.env
@@ -11,6 +11,20 @@ const SEARCH_CACHE_PREFIX = 'search___'
 const LOOKUP_BY_ID_CACHE_PREFIX = 'lookupById___'
 const cache = new NodeCache({stdTTL: CACHE_TIME_SECONDS})
 
+
+const cleanCardFaces = (card) => {
+    if (card.card_faces) {
+        if (card.card_faces.length > 1) {
+            card.card_faces = card.card_faces.map(face => {
+                face.card_faces = []
+                return face
+            })
+        } else {
+            card.card_faces = []
+        }
+    }
+    return card
+}
 
 const searchCards = async (searchTerm, page = 1) => {
     const queryHash = md5(searchTerm)
@@ -27,14 +41,10 @@ const searchCardsByHash = async (queryHash, page = 1, searchTerm = null) => {
         if (searchTerm) {
             cards = await scry.Cards.search(searchTerm, {unique: 'cards', order: 'usd'}).waitForAll()
             cards = cards.filter(card => card.games.includes(GAMETYPE_FILTER))
+            cards = cards.map(cleanCardFaces)
 
-            if (cards.length <= 5) {
-                for (const card of cards) {
-                    const lookupByIdCacheKey = LOOKUP_BY_ID_CACHE_PREFIX + card.id
-                    card.rulings = await card.getRulings()
-                    cache.set(lookupByIdCacheKey, card)
-                    await upsertCardInDbIfNecessary(card)
-                }
+            for (const card of cards) {
+                await insertCardInDbIfNotExists(card)
             }
 
             cache.set(cacheKey, cards)
@@ -53,8 +63,14 @@ const lookupCardById = async (cardId) => {
 
     let foundCard = cache.get(cacheKey) ?? await retrieveCardFromDb(cardId)
 
-    if (!foundCard || await cardRequiresDbUpsert(foundCard)) {
+    if (!foundCard || !foundCard.rulings || await cardRequiresDbUpsert(foundCard)) {
         foundCard = await scry.Cards.byId(cardId)
+
+        if (!foundCard || !foundCard.games.includes(GAMETYPE_FILTER)) {
+            return null
+        }
+
+        foundCard = cleanCardFaces(foundCard)
         foundCard.rulings = await foundCard.getRulings()
 
         await upsertCardInDb(foundCard)

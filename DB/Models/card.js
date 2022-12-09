@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 
+
 const CardSchema = new mongoose.Schema(
     {
+        object: {
+            type: String,
+        },
         id: {
             type: String,
             required: true
@@ -79,6 +83,9 @@ const CardSchema = new mongoose.Schema(
         keywords: {
             type: Array
         },
+        card_faces: {
+            type: Array
+        },
         all_parts: {
             type: Array
         },
@@ -87,6 +94,15 @@ const CardSchema = new mongoose.Schema(
         },
         games: {
             type: Array
+        },
+        reserved: {
+            type: Boolean
+        },
+        foil: {
+            type: Boolean
+        },
+        nonfoil: {
+            type: Boolean
         },
         finishes: {
             type: Array
@@ -128,7 +144,8 @@ const CardSchema = new mongoose.Schema(
             type: String
         },
         rulings: {
-            type: Array
+            type: Array,
+            default: undefined
         },
         prints_search_uri: {
             type: String
@@ -184,6 +201,9 @@ const CardSchema = new mongoose.Schema(
         edhrec_rank: {
             type: Number
         },
+        penny_rank: {
+            type: Number
+        },
         preview: {
             type: Object
         },
@@ -199,5 +219,6 @@ const CardSchema = new mongoose.Schema(
     },
     {timestamps: {createdAt: 'createdAt', updatedAt: 'updatedAt'}}
 )
+
 
 module.exports = mongoose.model('Card', CardSchema)
