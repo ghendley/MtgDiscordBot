@@ -15,23 +15,15 @@ const UserSchema = new mongoose.Schema({
             type: String,
             required: true
         },
+        discordDisplayName: {
+            type: String,
+            required: true
+        },
         discordAvatar: {
             type: String,
             required: false
         },
         discordAvatarUrl: {
-            type: String,
-            required: false
-        },
-        discordBanner: {
-            type: String,
-            required: false
-        },
-        discordBannerUrl: {
-            type: String,
-            required: false
-        },
-        discordAccentColor: {
             type: String,
             required: false
         }

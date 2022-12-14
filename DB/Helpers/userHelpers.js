@@ -11,20 +11,18 @@ const retrieveUserFromDb = async (discordId) => {
     return User.findOne({discordId: discordId})
 }
 
-const upsertUserFromDiscordUser = async (author) => {
+const upsertUser = async (guildMember) => {
     if (!USE_DB) {
         return
     }
 
     const user = {
-        discordId: author.id,
-        discordUsername: author.username,
-        discordDiscriminator: author.discriminator,
-        discordAvatar: author.avatar,
-        discordAvatarUrl: author.displayAvatarURL(),
-        discordBanner: author.banner,
-        discordBannerUrl: author.bannerURL(),
-        discordAccentColor: author.accentColor
+        discordId: guildMember.user.id,
+        discordUsername: guildMember.user.username,
+        discordDiscriminator: guildMember.user.discriminator,
+        discordDisplayName: guildMember.displayName,
+        discordAvatar: guildMember.avatar ?? guildMember.user.avatar,
+        discordAvatarUrl: guildMember.displayAvatarURL()
     }
 
     await User.findOneAndUpdate({discordId: user.discordId}, user, {upsert: true})
@@ -33,5 +31,5 @@ const upsertUserFromDiscordUser = async (author) => {
 
 module.exports = {
     retrieveUserFromDb,
-    upsertUserFromDiscordUser
+    upsertUser
 }
