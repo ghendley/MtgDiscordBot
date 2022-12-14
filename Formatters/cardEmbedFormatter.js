@@ -15,11 +15,11 @@ const replaceSymbols = (text) => {
         'B': EMOJI_BLACKMANA,
         'R': EMOJI_REDMANA,
         'G': EMOJI_GREENMANA,
-        'W/P': ` (${EMOJI_WHITEMANA}/🅿️)`,
-        'U/P': ` (${EMOJI_BLUEMANA}/🅿️)`,
-        'B/P': ` (${EMOJI_BLACKMANA}/🅿️)`,
-        'R/P': ` (${EMOJI_REDMANA}/🅿️)`,
-        'G/P': ` (${EMOJI_GREENMANA}/🅿️)`,
+        'W/P': `(${EMOJI_WHITEMANA}/🅿️)`,
+        'U/P': `(${EMOJI_BLUEMANA}/🅿️)`,
+        'B/P': `(${EMOJI_BLACKMANA}/🅿️)`,
+        'R/P': `(${EMOJI_REDMANA}/🅿️)`,
+        'G/P': `(${EMOJI_GREENMANA}/🅿️)`,
         'T': EMOJI_TAP,
         'S': '❄️',
         'C': ':one:',
@@ -44,7 +44,7 @@ const replaceSymbols = (text) => {
         '18': ':one::eight:',
         '19': ':one::nine:',
         '20': ':two::zero:',
-        '100': ':one::zero::'
+        '100': ':one::zero::zero:'
     }
     return _.replace(text, /{([^}]+)}/g, (match, p1) => symbolEmojis[p1] ?? match)
 }
@@ -59,7 +59,7 @@ const replaceKeywords = (text, keywords) => {
 
 // TODO This could use a refactor for readability
 // TODO Handle variations search (frame effect, set, finish)
-// TODO Dual-faced cards in same embed, use small images
+// TODO Dual-faced cards in same embed, use small images -- If image has same URL, use one (normal-sized) image
 // TODO Handle different legalities (restricted) with extra text
 const getCardEmbed = (card) => {
     const uuid = crypto.randomUUID().substring(0, 8)
