@@ -9,7 +9,7 @@ const {getCollectionButtons} = require('../Formatters/collectionButtonFormatter'
 const {WISHLISTS_ENABLED, COLLECTIONS_ENABLED} = require('../globalVars')
 
 
-const handleSearchCardMessage = async (searchTerm, discordMsg) => {
+const handleSearchCardMessage = async (searchTerm, discordMsg, user) => {
     const {cards, totalPages, queryHash} = await searchCards(searchTerm, 1)
 
     if (cards.length === 0) {

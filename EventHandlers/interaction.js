@@ -7,48 +7,29 @@ const {upsertUser} = require('../DB/Helpers/userHelpers')
 
 // TODO Implement stringSelectMenu search for handling 25 (*4=100) cards at a time in dropdown format
 
-const handleInteraction = async (interaction) => {
-    const {user, member} = interaction
+const interactions = {
+    'pcs': handlePagedCardSearchInteraction,
+    'card': handleLookupCardByIdInteraction,
+    'cbc': handleCardByCardInteraction,
+    'wla': handleWishlistAddInteraction,
+    'wlr': handleWishlistRemoveInteraction,
+    'cola': handleCollectionAddInteraction,
+    'colr': handleCollectionRemoveInteraction
+}
 
-    if (user.bot) {
-        return false
-    }
+const handleInteraction = async (interaction) => {
+    const {member} = interaction
 
     if (interaction.isButton()) {
         const buttonData = JSON.parse(interaction.customId)
-        switch (buttonData.type) {
-            case 'pcs':
-                await upsertUser(member)
-                await handlePagedCardSearchInteraction(buttonData.p, buttonData.q, interaction)
-                return true
-            case 'card':
-                await upsertUser(member)
-                await handleLookupCardByIdInteraction(buttonData.id, interaction)
-                return true
-            case 'cbc':
-                await upsertUser(member)
-                await handleCardByCardInteraction(buttonData.p, buttonData.n, buttonData.q, interaction)
-                return true
-            case 'wla':
-                await upsertUser(member)
-                await handleWishlistAddInteraction(buttonData.id, interaction)
-                return true
-            case 'wlr':
-                await upsertUser(member)
-                await handleWishlistRemoveInteraction(buttonData.id, interaction)
-                return true
-            case 'cola':
-                await upsertUser(member)
-                await handleCollectionAddInteraction(buttonData.id, interaction)
-                return true
-            case 'colr':
-                await upsertUser(member)
-                await handleCollectionRemoveInteraction(buttonData.id, interaction)
-                return true
-            default:
-                await interaction.update({})
-                return false
+
+        if (member.user.bot || !Object.keys(interactions).includes(buttonData.type)) {
+            return false
         }
+
+        const user = await upsertUser(member)
+
+        await interactions[buttonData.type](buttonData, interaction, user)
     }
 }
 

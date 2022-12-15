@@ -13,7 +13,7 @@ const retrieveUserFromDb = async (discordId) => {
 
 const upsertUser = async (guildMember) => {
     if (!USE_DB) {
-        return
+        return null
     }
 
     const user = {
@@ -25,7 +25,7 @@ const upsertUser = async (guildMember) => {
         discordAvatarUrl: guildMember.displayAvatarURL()
     }
 
-    await User.findOneAndUpdate({discordId: user.discordId}, user, {upsert: true})
+    return User.findOneAndUpdate({discordId: user.discordId}, user, {upsert: true, new: true})
 }
 
 

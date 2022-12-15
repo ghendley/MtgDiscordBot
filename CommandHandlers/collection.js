@@ -1,7 +1,9 @@
 const {lookupCardById} = require('../Helpers/cardSearchHelpers')
 
 
-const handleCollectionAddInteraction = async (cardId, interaction) => {
+const handleCollectionAddInteraction = async (buttonData, interaction, user) => {
+    const {id: cardId} = buttonData
+
     const card = await lookupCardById(cardId)
 
     interaction.reply(
@@ -12,7 +14,9 @@ const handleCollectionAddInteraction = async (cardId, interaction) => {
     )
 }
 
-const handleCollectionRemoveInteraction = async (cardId, interaction) => {
+const handleCollectionRemoveInteraction = async (buttonData, interaction, user) => {
+    const {id: cardId} = buttonData
+
     const card = await lookupCardById(cardId)
 
     interaction.reply(
@@ -24,7 +28,7 @@ const handleCollectionRemoveInteraction = async (cardId, interaction) => {
 }
 
 // TODO also reply to these messages with an emoji reaction
-const handleCollectionAddMessage = async (query, message) => {
+const handleCollectionAddMessage = async (query, message, user) => {
     message.reply(
         {
             content: `⚠️ Cannot add ${query} to your Collection: Feature not yet implemented.`,
@@ -33,7 +37,7 @@ const handleCollectionAddMessage = async (query, message) => {
     )
 }
 
-const handleCollectionRemoveMessage = async (query, message) => {
+const handleCollectionRemoveMessage = async (query, message, user) => {
     message.reply(
         {
             content: `⚠️ Cannot remove ${query} from your Collection: Feature not yet implemented.`,
@@ -42,7 +46,7 @@ const handleCollectionRemoveMessage = async (query, message) => {
     )
 }
 
-const handleCollectionGetMessage = async (query, message) => {
+const handleCollectionGetMessage = async (query, message, user) => {
     message.reply(
         {
             content: `⚠️ Cannot get Collection: Feature not yet implemented.`,

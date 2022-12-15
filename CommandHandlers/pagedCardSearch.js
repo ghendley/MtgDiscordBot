@@ -3,7 +3,9 @@ const {searchCardsByHash} = require('../Helpers/cardSearchHelpers')
 const {updateInteractionMessageWithError} = require('../Helpers/errorResponseHelpers')
 
 
-const handlePagedCardSearchInteraction = async (page, queryHash, interaction) => {
+const handlePagedCardSearchInteraction = async (buttonData, interaction, user) => {
+    const {p:page, q:queryHash} = buttonData
+
     const {cards, totalPages} = await searchCardsByHash(queryHash, page)
 
     if (cards.length === 0 || totalPages === 0) {

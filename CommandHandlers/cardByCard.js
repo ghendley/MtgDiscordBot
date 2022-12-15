@@ -3,7 +3,9 @@ const {searchCards, searchCardsByHash, lookupCardById} = require('../Helpers/car
 const {updateInteractionMessageWithError} = require('../Helpers/errorResponseHelpers')
 
 
-const handleCardByCardInteraction = async (page, pageCardNo, queryHash, interaction) => {
+const handleCardByCardInteraction = async (buttonData, interaction, user) => {
+    const {p:page, n:pageCardNo, q:queryHash} = buttonData
+
     const {cards, totalCards, totalPages} = await searchCardsByHash(queryHash, page)
 
     if (cards.length === 0 || totalPages === 0) {
@@ -18,7 +20,7 @@ const handleCardByCardInteraction = async (page, pageCardNo, queryHash, interact
 }
 
 
-const handleCardByCardMessage = async (searchTerm, discordMsg) => {
+const handleCardByCardMessage = async (searchTerm, discordMsg, user) => {
     const {cards, totalCards, totalPages, queryHash} = await searchCards(searchTerm, 1)
 
     if (cards.length === 0 || totalPages === 0) {
