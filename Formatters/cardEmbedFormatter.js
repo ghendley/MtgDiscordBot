@@ -61,6 +61,7 @@ const replaceKeywords = (text, keywords) => {
 // TODO Handle variations search (frame effect, set, finish)
 // TODO Dual-faced cards in same embed, use small images -- If image has same URL, use one (normal-sized) image
 // TODO Handle different legalities (restricted) with extra text
+// TODO setColor to color identity (average of color identities?)
 const getCardEmbed = (card) => {
     const uuid = crypto.randomUUID().substring(0, 8)
     const title = `${card.name} ${card.mana_cost === '' ? '' : '  ' + replaceSymbols(card.mana_cost)}`

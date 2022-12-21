@@ -3,6 +3,7 @@ const {handleSearchCardMessage} = require('../CommandHandlers/searchCard')
 const {handleCardByCardMessage} = require('../CommandHandlers/cardByCard')
 const {handleWishlistAddMessage, handleWishlistRemoveMessage, handleWishlistGetMessage} = require('../CommandHandlers/wishlist')
 const {handleCollectionAddMessage, handleCollectionRemoveMessage, handleCollectionGetMessage} = require('../CommandHandlers/collection')
+const {handleRosewattaMessage} = require('../CommandHandlers/rosewatta')
 const {upsertUser} = require('../DB/Helpers/userHelpers')
 
 // TODO .rulings
@@ -18,21 +19,22 @@ const commands = {
     '.wishlist': handleWishlistGetMessage,
     '.collect': handleCollectionAddMessage,
     '.uncollect': handleCollectionRemoveMessage,
-    '.collection': handleCollectionGetMessage
+    '.collection': handleCollectionGetMessage,
+    '.rosewatta': handleRosewattaMessage
 }
 
 const handleMessage = async (message) => {
     const {content, author, member} = message
-
     const {command, query} = parseCommand(content)
 
-    if (author.bot || !Object.keys(commands).includes(command)) {
+    if (author.bot || !(command in commands)) {
         return false
     }
 
     const user = await upsertUser(member)
 
     await commands[command](query, message, user)
+    return true
 }
 
 

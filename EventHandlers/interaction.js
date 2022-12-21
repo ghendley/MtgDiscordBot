@@ -18,19 +18,21 @@ const interactions = {
 }
 
 const handleInteraction = async (interaction) => {
-    const {member} = interaction
-
     if (interaction.isButton()) {
+        const {member} = interaction
         const buttonData = JSON.parse(interaction.customId)
 
-        if (member.user.bot || !Object.keys(interactions).includes(buttonData.type)) {
+        if (member.user.bot || !(buttonData.type in interactions)) {
             return false
         }
 
         const user = await upsertUser(member)
 
         await interactions[buttonData.type](buttonData, interaction, user)
+        return true
     }
+
+    return false
 }
 
 
