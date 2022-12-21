@@ -7,6 +7,41 @@ const {FORMAT_FILTER, EMOJI_WHITEMANA, EMOJI_BLUEMANA, EMOJI_BLACKMANA, EMOJI_RE
 
 
 const formats = FORMAT_FILTER.toLowerCase().split(',')
+const colorMap = {
+    'W': '#ebe7dd',
+    'U': '#2f64c8',
+    'B': '#1e1e1e',
+    'R': '#dd4b23',
+    'G': '#336547',
+    'colorless': '#a5a5a5',
+    'multi': '#e9d171'
+}
+
+const getEmbedColor = (cardColors) => {
+    // The following three functions lifted shamelessly from https://stackoverflow.com/a/65552876
+    const hexToRgb = (h) => {
+        return ['0x' + h[1] + h[2] | 0, '0x' + h[3] + h[4] | 0, '0x' + h[5] + h[6] | 0]
+    }
+    const rgbToHex = (r, g, b) => {
+        return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+    }
+    const avgHex = (h1, h2) => {
+        const a = hexToRgb(h1)
+        const b = hexToRgb(h2)
+        return rgbToHex(~~((a[0] + b[0]) / 2), ~~((a[1] + b[1]) / 2), ~~((a[2] + b[2]) / 2))
+    }
+
+    switch (cardColors.length) {
+        case 0:
+            return colorMap.colorless
+        case 1:
+            return colorMap[cardColors[0]]
+        case 2:
+            return avgHex(colorMap[cardColors[0]], colorMap[cardColors[1]])
+        default:
+            return colorMap.multi
+    }
+}
 
 const replaceSymbols = (text) => {
     const symbolEmojis = {
@@ -111,6 +146,7 @@ const getCardEmbed = (card) => {
     embed.setTitle(title)
     embed.setDescription(`[${card.set_name}](${card.scryfall_set_uri})`)
     embed.setImage(card.image_uris.normal)
+    embed.setColor(getEmbedColor(card.colors))
 
     embed.addFields({
         name: `${card.type_line}\t${card.power && card.toughness ? '**' + card.power + ' / ' + card.toughness + '**' : ''}`,
